@@ -1,0 +1,31 @@
+defaultTasks 'hello'
+allprojects{
+	task hello << {
+		task -> println("I'm $task.project.name")
+	}
+}
+subprojects{
+	task compileTask << {
+		System.out.println("compiling")
+	}
+
+	task buildTask (dependsOn:compileTask) << {
+		System.out.println("building....")
+	}
+}
+	project(':app'){	
+		apply plugin : "java"
+		//apply plugin : "war"
+		archivesBaseName = "gradlePlayground"
+		version = "1.1_beta"
+		repositories{
+			mavenCentral()
+		}
+		dependencies{
+			compile group:'org.apache.commons', name:'commons-lang3', version:'3.3.2'
+			testCompile 'junit:junit:4.+'
+		}
+	}
+	project(':api'){
+		
+	}
